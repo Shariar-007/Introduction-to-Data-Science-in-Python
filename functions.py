@@ -27,3 +27,7 @@ def addNumbers(x,y,z=None,flag=False):
     
 print(addNumbers(2,3))
 print(addNumbers(2,3,4))
+
+a = addNumbers
+print(a(2,3,4))
+
