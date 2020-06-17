@@ -62,9 +62,9 @@ print(df.head())
 
 df = pd.read_csv('olympics.csv', index_col = 0, skiprows=1)
 print(df.head())
-
+#
 print(df.columns)
-
+#
 for col in df.columns:
     if col[:2]=='01':
         df.rename(columns={col:'Gold' + col[4:]}, inplace=True)
@@ -81,13 +81,15 @@ print(df.head())
 # Querying a DataFrame
 # =============================================================================
 
-print(df['Gold'] > 0)
+print("# Querying a DataFrame")
+
+print(df['Gold']>0)
 only_gold = df.where(df['Gold'] > 0)
 print(only_gold.head())
 
 print(only_gold['Gold'].count())
 print(df['Gold'].count())
-#print(df.count())
+print(df.count())
 
 only_gold = only_gold.dropna()
 print(only_gold.head())
@@ -95,7 +97,71 @@ print(only_gold.head())
 only_gold = df[df['Gold'] > 0]
 print(only_gold.head())
 
-print(len(df[(df['Gold'] > 0) | (df['Gold.1'] > 0)]))
-
+print(len(df[(df['Gold'] > 0) | (df['Gold.1'] > 0)])) 
 print(df[(df['Gold.1'] > 0) & (df['Gold'] == 0)])
 print(len(df[(df['Gold.1'] > 0) & (df['Gold'] == 0)]))
+# =============================================================================
+
+# =============================================================================
+# Indexing Dataframes
+# =============================================================================
+
+print("# Indexing Dataframes")
+print(df.head())
+df['country'] = df.index
+df = df.set_index('Gold')
+print(df.head())
+
+df = df.reset_index()
+print(df.head())
+
+df = pd.read_csv('census.csv')
+print(df.head())
+print(df['SUMLEV'].unique())
+
+df=df[df['SUMLEV'] == 50]
+print(df.head())
+
+columns_to_keep = ['STNAME',
+                   'CTYNAME',
+                   'BIRTHS2010',
+                   'BIRTHS2011',
+                   'BIRTHS2012',
+                   'BIRTHS2013',
+                   'BIRTHS2014',
+                   'BIRTHS2015',
+                   'POPESTIMATE2010',
+                   'POPESTIMATE2011',
+                   'POPESTIMATE2012',
+                   'POPESTIMATE2013',
+                   'POPESTIMATE2014',
+                   'POPESTIMATE2015']
+df = df[columns_to_keep]
+print(df.head())
+
+df = df.set_index(['STNAME', 'CTYNAME'])
+print(df.head())
+
+print(df.loc['Michigan', 'Washtenaw County'])
+
+df.loc[ [('Michigan', 'Washtenaw County'),
+         ('Michigan', 'Wayne County')] ]
+
+
+
+# =============================================================================
+# Missing values
+# =============================================================================
+print("# Missing values")
+df = pd.read_csv('log.csv')
+print(df)
+
+df = df.set_index('time')
+print(df)
+
+df = df.reset_index()
+df = df.set_index(['time', 'user'])
+print(df)
+
+df = df.fillna(method='ffill')
+print(df.head())
