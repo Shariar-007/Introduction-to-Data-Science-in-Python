@@ -11,7 +11,7 @@ print(df.head())
 
 print(df.where(df['SUMLEV'] == 50).dropna().set_index(['STNAME','CTYNAME']).rename(columns={'ESTIMATESBASE2010': 'Estimates Base 2010'}))
 
-df1 = df[df['SUMLEV']==50]
+df1 = df[df['SUMLEV']==50] 
 print(df1.head())
 
 df1.set_index(['STNAME','CTYNAME'], inplace=True)
