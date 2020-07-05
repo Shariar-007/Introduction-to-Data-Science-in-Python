@@ -11,23 +11,23 @@ import numpy as np
 df = pd.read_csv('census.csv')
 
 df = df[df['SUMLEV']==50]
-#print(df)
+print(df)
 
-#print(df['STNAME'].unique())
+print(df['STNAME'].unique())
 #
 #inefficient
 for state in df['STNAME'].unique():
     avg = np.average(df.where(df['STNAME'] == state).dropna()['CENSUS2010POP'])
-#    print('Counties in the state '+ state + ' have an average population of ' + str(avg))
+    print('Counties in the state '+ state + ' have an average population of ' + str(avg))
     
 #efficient
 for group, frame in df.groupby('STNAME'):
     avg = np.average(frame['CENSUS2010POP'])
-#    print('Countries in the state '+ group + ' have an average population of ' + str(avg))
+    print('Countries in the state '+ group + ' have an average population of ' + str(avg))
      
 #print(df.head())
 
-#df = df.set_index('STNAME')
+df = df.set_index('STNAME')
 
 def fun(item):
     if item[0]<'M':
@@ -36,8 +36,8 @@ def fun(item):
         return 1;
     return 2;
 
-#for group, frame in df.groupby(fun):
-#    print('There are ' + str(len(frame)) + ' records in group '+ str(group) + ' for processing.')
+for group, frame in df.groupby(fun):
+    print('There are ' + str(len(frame)) + ' records in group '+ str(group) + ' for processing.')
     
 
 
@@ -48,27 +48,27 @@ def fun(item):
 #print(df1.groupby('Category').apply(lambda df1,a,b: sum(df[a] * df[b]), 'Weight (oz.)', 'Quantity'))
 
 # Or alternatively without using a lambda:
-#def totalweight(df, w, q):
-#        return sum(df[w] * df[q])
+def totalweight(df, w, q):
+        return sum(df[w] * df[q])
         
-#print(df.groupby('Category').apply(totalweight, 'Weight (oz.)', 'Quantity'))
+print(df.groupby('Category').apply(totalweight, 'Weight (oz.)', 'Quantity'))
 
  
 
    
-#print(df.groupby('STNAME').agg({'CENSUS2010POP': np.average}))    
-#
-#print(type(df.groupby(level=0)['POPESTIMATE2010','POPESTIMATE2011']))
-#print(type(df.groupby(level=0)['POPESTIMATE2010']))    
-#    
-#print((df.set_index('STNAME').groupby(level=0)['CENSUS2010POP'].agg({'avg': np.average, 'sum': np.sum})))    
-#    
-#print(df.set_index('STNAME').groupby(level=0)['POPESTIMATE2010','POPESTIMATE2011'].agg({'avg': np.average, 'sum': np.sum}))
-#    
-#    
+print(df.groupby('STNAME').agg({'CENSUS2010POP': np.average}))    
+
+print(type(df.groupby(level=0)['POPESTIMATE2010','POPESTIMATE2011']))
+print(type(df.groupby(level=0)['POPESTIMATE2010']))    
+    
+print((df.set_index('STNAME').groupby(level=0)['CENSUS2010POP'].agg({'avg': np.average, 'sum': np.sum})))    
+    
+print(df.set_index('STNAME').groupby(level=0)['POPESTIMATE2010','POPESTIMATE2011'].agg({'avg': np.average, 'sum': np.sum}))
+    
+    
 print(df.set_index('STNAME').groupby(level=0)['POPESTIMATE2010','POPESTIMATE2011'].agg({'POPESTIMATE2010': np.average, 'POPESTIMATE2011': np.sum}))
-#    
-#    
+    
+    
     
     
     
